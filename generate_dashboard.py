@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-BrokerPulse — static dashboard generator.
+Broker's Pulse — static dashboard generator.
 
 BACKEND WORKFLOW:
   1. Drop NSE report files into  data/reports/   (1A / 1C / 3B / 4B /
@@ -175,7 +175,8 @@ def clean_df(data):
         s = df[col]
         if isinstance(s, pd.DataFrame):
             s = s.iloc[:, 0]
-        s = s.astype(str).str.strip().replace({"-": np.nan, "—": np.nan, "": np.nan})
+        # Remove commas before converting to numeric so active clients calculation works correctly
+        s = s.astype(str).str.replace(",", "", regex=False).str.strip().replace({"-": np.nan, "—": np.nan, "": np.nan})
         df[col] = pd.to_numeric(s, errors="coerce")
     if {"complaints_received", "resolved"} <= set(df.columns):
         if "pending" not in df.columns:
@@ -449,14 +450,6 @@ def build_payload():
                          f"{tot_p:,} pending complaints — disputes settle at "
                          "exchange/IGRC level, or investors are not escalating."))
 
-    recs = [
-        f"<b>Target the priority-fix quadrant first.</b> Regulatory follow-up on high-volume brokers below {med:.0f}% resolution lifts the market rate fastest.",
-        f"<b>Set a backlog-aging SLA.</b> {tot_p:,} pending complaints carry no aging data; require time-to-resolution reporting.",
-        "<b>Benchmark-transfer program.</b> Pair bottom-quartile brokers with the 90%+ resolvers to share complaint-handling workflows.",
-        "<b>Watch density, not just volume.</b> Small brokers with high complaints-per-10K-clients are riskier than large brokers with high absolute counts.",
-        "<b>Regenerate monthly.</b> Drop each new Report 1C into data/reports/ and re-run the generator to keep this page current.",
-    ]
-
     payload = {
         "generated": datetime.now().strftime("%d %b %Y, %H:%M"),
         "period": main_label,
@@ -508,7 +501,6 @@ def build_payload():
                  "clients": [fmt_in(v) for v in top10_ms["active_clients"]],
                  "others": round(100 - top10_ms["share"].sum(), 1)},
         "findings": [{"k": k, "t": t} for k, t in findings],
-        "recs": recs,
         "table": [[r.tm_name,
                    str(getattr(r, "defaulter", "")),
                    fmt_in(getattr(r, "active_clients", np.nan)),
@@ -591,7 +583,7 @@ def render(payload: dict) -> str:
 
 
 if __name__ == "__main__":
-    print("📡 BrokerPulse generator")
+    print("📡 Broker's Pulse generator")
     print(f"   Scanning {REPORTS_DIR} …")
     payload = build_payload()
     for f in payload["files"]:
