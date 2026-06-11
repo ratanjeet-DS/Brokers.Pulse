@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BrokerPulse — NSE Compliance Intelligence</title>
+<title>Broker's Pulse — NSE Compliance Intelligence</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..900&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
@@ -140,7 +140,7 @@ footer{margin-top:70px;background:var(--ink);color:#7C8DA8;padding:30px 0;
 <header>
   <div class="wrap">
     <div class="topbar">
-      <div class="brand"><span class="dot"></span>BrokerPulse</div>
+      <div class="brand"><span class="dot"></span>Broker's Pulse</div>
       <nav aria-label="Sections">
         <a href="#brief">Brief</a><a href="#complaints">Complaints</a>
         <a href="#matrix">Matrix</a><a href="#concentration">Concentration</a>
@@ -240,13 +240,6 @@ footer{margin-top:70px;background:var(--ink);color:#7C8DA8;padding:30px 0;
   <div id="otherPanels"></div>
 </div></section>
 
-<!-- ═══ RECOMMENDATIONS ═══ -->
-<section id="recs"><div class="wrap">
-  <div class="eyebrow"><svg class="blip" viewBox="0 0 18 10"><path d="M0,5 L5,5 L7,1 L9,9 L11,5 L18,5" stroke="#1D4ED8" stroke-width="1.5" fill="none"/></svg>Recommendations</div>
-  <h2>What to do with this</h2>
-  <div id="recList" style="margin-top:16px"></div>
-</div></section>
-
 <!-- ═══ DATA ═══ -->
 <section id="data"><div class="wrap">
   <div class="eyebrow"><svg class="blip" viewBox="0 0 18 10"><path d="M0,5 L5,5 L7,1 L9,9 L11,5 L18,5" stroke="#1D4ED8" stroke-width="1.5" fill="none"/></svg>Full data</div>
@@ -269,7 +262,7 @@ footer{margin-top:70px;background:var(--ink);color:#7C8DA8;padding:30px 0;
   </div>
 </div></section>
 
-<footer>📡 BROKERPULSE · NSE COMPLIANCE INTELLIGENCE · GENERATED FROM SOURCE FILINGS · SELF-CONTAINED PAGE — SHARE OR PRINT FREELY</footer>
+<footer>📡 BROKER'S PULSE · NSE COMPLIANCE INTELLIGENCE · GENERATED FROM SOURCE FILINGS · SELF-CONTAINED PAGE — SHARE OR PRINT FREELY</footer>
 
 <script>
 const D = /*__DATA__*/null;
@@ -342,11 +335,9 @@ document.getElementById('boards').innerHTML =
     B.pending.map((r,i)=>`<tr><td class="medal">${medals[i]}</td><td>${r[0]}</td>
       <td class="num rate-bad">${r[1]}</td><td class="num">${r[2]}%</td></tr>`).join(''));
 
-// ── findings & recs ──
+// ── findings ──
 document.getElementById('findings').innerHTML =
   D.findings.map(f=>`<div class="finding ${f.k}">${f.t}</div>`).join('');
-document.getElementById('recList').innerHTML =
-  D.recs.map(r=>`<div class="finding neutral">${r}</div>`).join('');
 
 // ── pareto ──
 document.getElementById('paretoNote').textContent =
